@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyPuffs Escape Room</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg,#070b15,#0c1630);
+    color: #fff;
+    font-family: Inter, system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+  }
+  #timer {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #21b2ff;
+    background: rgba(0,0,0,0.4);
+    padding: 8px 14px;
+    border-radius: 8px;
+  }
+  #level-indicator {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    font-size: 16px;
+    opacity: 0.85;
+  }
+  .room {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    background-size: cover;
+    background-position: center;
+  }
+  .room.active { display: block; }
+  .obj {
+    position: absolute;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+  }
+  .obj:hover {
+    border: 2px solid rgba(33,178,255,0.6);
+  }
+  .popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(7,11,21,0.9);
+    padding: 20px;
+    border: 1px solid rgba(33,178,255,0.4);
+    border-radius: 12px;
+    max-width: 320px;
+    text-align: center;
+    display: none;
+    backdrop-filter: blur(8px);
+    z-index: 99;
+  }
+  .popup button {
+    margin-top: 10px;
+    background: linear-gradient(90deg,#21b2ff,#6d28ff);
+    border: none;
+    padding: 10px 16px;
+    color: #001018;
+    font-weight: 800;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .code-input {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .code-input input {
+    width: 40px;
+    text-align: center;
+    font-size: 24px;
+    padding: 5px;
+    border: 2px solid rgba(33,178,255,0.5);
+    border-radius: 6px;
+    background: #0c1630;
+    color: #fff;
+  }
+  #victory {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.8);
+    padding: 40px;
+    text-align: center;
+    display: none;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+</style>
+</head>
+<body>
+
+<div id="timer">⏳ 60s</div>
+<div id="level-indicator">Niveau 1 / 2</div>
+
+<!-- ==== PIÈCE 1 ==== -->
+<div class="room active" id="room1" style="background-image:url('https://i.imgur.com/h26KpFq.png');">
+  <div class="obj" id="painting1" style="top:30%;left:20%;width:80px;height:80px;"></div>
+  <div class="obj" id="desk1" style="bottom:20%;left:40%;width:120px;height:60px;"></div>
+  <div class="obj" id="chest1" style="bottom:18%;right:25%;width:100px;height:80px;"></div>
+  <div class="obj" id="door1" style="top:20%;right:5%;width:120px;height:200px;"></div>
+</div>
+
+<!-- ==== PIÈCE 2 ==== -->
+<div class="room" id="room2" style="background-image:url('https://i.imgur.com/DxREX2U.png');">
+  <div class="obj" id="poster2" style="top:35%;left:30%;width:80px;height:80px;"></div>
+  <div class="obj" id="safe2" style="bottom:25%;left:50%;width:120px;height:60px;"></div>
+  <div class="obj" id="door2" style="top:20%;right:5%;width:120px;height:200px;"></div>
+</div>
+
+<!-- POPUP GÉNÉRALE -->
+<div id="popup" class="popup">
+  <p id="popup-text"></p>
+  <div id="code-zone" style="display:none;">
+    <div class="code-input">
+      <input maxlength="1">
+      <input maxlength="1">
+      <input maxlength="1">
+      <input maxlength="1">
+    </div>
+    <button id="check-code">Entrer le code</button>
+  </div>
+  <button id="close-popup">Fermer</button>
+</div>
+
+<!-- VICTOIRE -->
+<div id="victory">
+  <h2>🎉 Bravo !</h2>
+  <p>Tu as terminé les 2 niveaux.</p>
+  <p id="final-time"></p>
+  <button onclick="location.reload()">Rejouer</button>
+</div>
+
+<script>
+const popup = document.getElementById('popup');
+const popupText = document.getElementById('popup-text');
+const codeZone = document.getElementById('code-zone');
+const inputs = codeZone.querySelectorAll('input');
+const checkBtn = document.getElementById('check-code');
+const closeBtn = document.getElementById('close-popup');
+const levelIndicator = document.getElementById('level-indicator');
+
+let currentLevel = 1;
+const totalLevels = 2;
+let doorOpened = {1:false, 2:false};
+const codes = {1:"1984", 2:"4621"};
+let timeLeft = 60;
+let timer = setInterval(()=>{
+  timeLeft--;
+  document.getElementById('timer').textContent = `⏳ ${timeLeft}s`;
+  if(timeLeft<=0){
+    clearInterval(timer);
+    popupText.textContent = "⏳ Temps écoulé !";
+    popup.style.display = 'block';
+    document.getElementById('check-code').style.display = 'none';
+  }
+},1000);
+
+function openPopup(text, showCode=false){
+  popupText.textContent = text;
+  codeZone.style.display = showCode ? 'block' : 'none';
+  popup.style.display = 'block';
+}
+function closePopup(){
+  popup.style.display = 'none';
+  inputs.forEach(i=>i.value='');
+}
+closeBtn.onclick = closePopup;
+
+function checkCode(level){
+  const code = Array.from(inputs).map(i=>i.value).join('');
+  if(code === codes[level]){
+    doorOpened[level] = true;
+    closePopup();
+    openPopup("✅ Code correct ! La porte est ouverte.");
+  } else {
+    openPopup("❌ Mauvais code !");
+  }
+}
+checkBtn.onclick = ()=>checkCode(currentLevel);
+
+// focus auto
+inputs.forEach((input, idx)=>{
+  input.addEventListener('input', ()=>{
+    if(input.value.length===1 && idx<inputs.length-1){
+      inputs[idx+1].focus();
+    }
+  });
+});
+
+// OBJETS NIVEAU 1
+document.getElementById('painting1').onclick=()=>openPopup("Un tableau... une inscription derrière : 1 9 8 4 🧠");
+document.getElementById('desk1').onclick=()=>openPopup("Un bureau poussiéreux, rien d'intéressant 🕸️");
+document.getElementById('chest1').onclick=()=>openPopup("Un coffre fermé à code...", true);
+document.getElementById('door1').onclick=()=>{
+  if(doorOpened[1]){
+    nextLevel();
+  } else {
+    openPopup("Porte verrouillée. Trouve le code !");
+  }
+};
+
+// OBJETS NIVEAU 2
+document.getElementById('poster2').onclick=()=>openPopup("Sur l'affiche : 4 6 2 1 ✨");
+document.getElementById('safe2').onclick=()=>openPopup("Un coffre codé à 4 chiffres", true);
+document.getElementById('door2').onclick=()=>{
+  if(doorOpened[2]){
+    endGame();
+  } else {
+    openPopup("Porte verrouillée !");
+  }
+};
+
+function nextLevel(){
+  document.getElementById(`room${currentLevel}`).classList.remove('active');
+  currentLevel++;
+  document.getElementById(`room${currentLevel}`).classList.add('active');
+  levelIndicator.textContent = `Niveau ${currentLevel} / ${totalLevels}`;
+}
+
+function endGame(){
+  clearInterval(timer);
+  document.getElementById('victory').style.display = 'block';
+  document.getElementById('final-time').textContent = `⏱️ Temps restant : ${timeLeft}s`;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skypuffs Legend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+  <!-- HEADER -->
+  <header class="container">
+    <div class="brand">SKYPUFFS <span>LEGEND</span></div>
+<nav class="nav">
+  <!-- ROADMAP avec sous-menu -->
+  <div class="dropdown">
+    <a href="#roadmap" class="dropbtn">Roadmap ▾</a>
+    <div class="dropdown-content">
+      <a href="#roadmap">Roadmap</a>
+      <a href="whitepaper.html">White Paper</a>
+    </div>
+  </div>
+  <a href="tokenomics.html">Tokenomics</a>
+  <a href="defis.html">Defis</a> 
+  <a href="#team">Team</a>
+</nav>
+
+    <button id="connectWallet" class="btn-outline">Connect Wallet</button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero container">
+    <img src="assets/skypuff.gif" class="hero-img" alt="Skypuff NFT" />
+    <h1>Skypuffs Legend</h1>
+    <h2><span>2222 NFTs full of energy</span></h2>
+    <div class="cta">
+      <button id="mintBtn" class="btn-primary">MINT NOW</button>
+      <button class="btn-ghost" onclick="window.open('https://www.acideart.com/', '_blank')">EXPLORE ART</button>
+    </div>
+  </section>
+
+  <!-- MINT STATS -->
+  <section class="stats container" id="collection">
+    <div class="progress-header">
+     
+     
+    </div>
+  
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">SUPPLY</div>
+        <div class="value">2222</div>
+      </div>
+      <div class="stat">
+        <div class="label">MINT PRICE</div>
+        <div class="value">0.15 ETH</div>
+      </div>
+      <div class="stat">
+        <div class="label">VOLUME GOAL</div>
+        <div class="value">...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+ <!-- ROADMAP (Vertical Tabs) -->
+<section id="roadmap" class="roadmap-vertical">
+  <h2 class="section-title">Roadmap</h2>
+
+
+  <div class="rmv-wrap">
+    <!-- Onglets à gauche -->
+    <nav class="rmv-tabs" aria-label="Roadmap tabs">
+      <button class="rmv-tab is-active" data-target="q1"><span>Q1</span> Waitlist & Codes</button>
+      <button class="rmv-tab" data-target="q2"><span>Q2</span> Fire Sale</button>
+      <button class="rmv-tab" data-target="q3"><span>Q3</span> Unlocking</button>
+      <button class="rmv-tab" data-target="q4"><span>Q4</span> Airdrops</button>
+      <button class="rmv-tab" data-target="q5"><span>Q5</span> Token Launch</button>
+      <button class="rmv-tab" data-target="q6"><span>Q6</span> Ecosystem Fund</button>
+    </nav>
+
+    <!-- Contenus à droite -->
+    <div class="rmv-panels">
+      <article id="q1" class="rmv-panel is-active">
+        <h3>Q1 — Waitlist & Codes (January 2026)</h3>
+        <p>
+          • Code distribution: each code equals a fixed number of tokens and one Skypuffs NFT waitlist slot.<br>
+          • 1 code = 1 waitlist slot.<br>
+          • Tasks to validate the waitlist:<br>
+          • Play the Discord mini-game and earn 77 coins.<br>
+          • Submit your wallet.<br>
+          • Post a tweet in the requested format.<br>
+          • Pass verification (auto or manual).<br>
+          ✅ Valid waitlist = confirmed slot.
+        </p>
+      </article>
+
+      <article id="q2" class="rmv-panel">
+        <h3>Q2 — Fire Sale</h3>
+        <p>
+          • Guaranteed Allowlist → early validated users get secured access.<br>
+          • Non-guaranteed Waitlist → raffle participation with early-entry boosts:<br>
+          • Standard entry = 1 ticket entry &lt; 1h = 2 tickets (exact boost to be defined).<br>
+          • Fixed price (USD & SKY to be defined).<br>
+          • Results & refunds announced within 48h after the Fire Sale ends.
+        </p>
+      </article>
+
+      <article id="q3" class="rmv-panel">
+        <h3>Q3 — Unlocking (Fire Sale & Private Sale)</h3>
+        <p>
+          • Fire Sale: 25% unlocked instantly; 75% released linearly each day over 12 months.<br>
+          • Private Sale: 15% until month 6 ; 10% unlocked at month 6; remaining 90% released linearly each day over 18 months (total 24 months).<br>
+          • Claim window: 69 days after each unlock; otherwise returned to the Ecosystem Fund.
+        </p>
+      </article>
+
+      <article id="q4" class="rmv-panel">
+        <h3>Q4 — Airdrops </h3>
+        <p>
+          • For SKYPUFFS NFT holders: large airdrops based on type and traits.<br>
+          • For Maps & Valuables: burn the NFT → convert to SKY tokens (amount depends on rarity).<br>
+          • Unlocking: part unlocked instantly; remainder vested linearly over 24 months.
+        </p>
+      </article>
+
+      <article id="q5" class="rmv-panel">
+        <h3>Q5 — Token Launch </h3>
+        <p>
+          • SKY officially live.<br>
+          • Claim and refunds activated.<br>
+          • Key deadlines (TBD): Maps/Valuables claims, Fire Sale full unlock, Private Sale full unlock.
+        </p>
+      </article>
+
+      <article id="q6" class="rmv-panel">
+        <h3>Q6 — Ecosystem Fund (Post-unlock)</h3>
+        <p>
+          • Any SKY unclaimed within 77 days automatically returns to the Ecosystem Fund.<br>
+          • Purpose: reuse tokens for project growth (new partnerships, incentives, community rewards, liquidity).
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- TEAM SECTION -->
+<section class="team container" id="team">
+  <h3>Our Team</h3>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="assets/artist.png" alt="Artist">
+      <h4>Acide<br>Artiste peintre</h4>
+      <p>Artist & Creator of the Skypuffs universe. The visionary behind every vibrant design and collectible NFT.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="assets/images/dev.png" alt="Developer">
+      <h4>Lorenzo<br>Dev Master</h4>
+      <p>Blockchain Developer. Handles the smart contract deployment and ensures secure minting integration.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="assets/uf_Design_.png" alt="Community Manager">
+      <h4>...<br>Community Manager</h4>
+      <p>Community Manager. Builds strong ties with our holders and keeps the Discord and socials buzzing.</p>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer container" id="community">
+    <a href="https://discord.gg/4jtd8ErJry" target="_blank" aria-label="Discord">
+      <img src="assets/discord.svg" alt="Discord" />
+    </a>
+    <a href="https://x.com/AcideArt?s=09" target="_blank" aria-label="X (Twitter)">
+      <img src="assets/x.svg" alt="X" />
+    </a>
+    <a href="https://www.instagram.com/acide.art/" target="_blank" aria-label="Instagram">
+      <img src="assets/instagram.svg" alt="Instagram" />
+    </a>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+(function(){
+  const tabs = document.querySelectorAll('.rmv-tab');
+  const panels = document.querySelectorAll('.rmv-panel');
+
+  function activate(id){
+    tabs.forEach(t => t.classList.toggle('is-active', t.dataset.target === id));
+    panels.forEach(p => p.classList.toggle('is-active', p.id === id));
+    if(history.replaceState){ history.replaceState(null, '', '#'+id); }
+  }
+
+  tabs.forEach(btn=>{
+    btn.addEventListener('click', ()=> activate(btn.dataset.target));
+  });
+
+  // Ouvre l’onglet selon le hash (#q1 … #q6) si présent
+  const hash = (location.hash || '#q1').replace('#','');
+  activate(document.getElementById(hash) ? hash : 'q1');
+})();
+</script>
+
+</body>
+</html>
