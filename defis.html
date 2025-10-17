@@ -60,15 +60,50 @@
     </a>
   </footer>
 
-  <!-- Zealy -->
+  <!-- === Zealy === -->
   <script src="https://zealy.io/embed.js"></script>
 
-  <!-- ✅ Correctif Discord/Twitter -->
+  <!-- === Correctif forcé Discord/Twitter === -->
   <script>
+    // Fonction pour intercepter tous les clics dans les iframes Zealy
+    function interceptZealyLinks() {
+      // Recherche de tous les iframes Zealy dans la page
+      const iframes = document.querySelectorAll('iframe');
+
+      iframes.forEach(iframe => {
+        try {
+          // On accède au contenu interne (si autorisé)
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+          // On surveille les clics dans l'iframe
+          doc.addEventListener('click', (e) => {
+            const target = e.target.closest('a');
+            if (target && target.href) {
+              const url = target.href;
+
+              // Si le lien mène vers Discord ou Twitter → on l'ouvre dans un nouvel onglet
+              if (url.includes('discord.com') || url.includes('twitter.com')) {
+                e.preventDefault();
+                window.open(url, '_blank', 'noopener');
+                return false;
+              }
+            }
+          }, true);
+        } catch (err) {
+          // Erreur normale si Zealy protège son iframe (sandbox)
+        }
+      });
+    }
+
+    // Surveille les iframes Zealy qui se chargent après le script
+    const observer = new MutationObserver(() => interceptZealyLinks());
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Écoute les messages Zealy → ouvre Discord/Twitter dans un nouvel onglet
     window.addEventListener("message", (event) => {
       if (typeof event.data === "string") {
         if (event.data.includes("https://discord.com/") || event.data.includes("https://twitter.com/")) {
-          window.open(event.data, "_blank");
+          window.open(event.data, "_blank", "noopener");
         }
       }
     });
